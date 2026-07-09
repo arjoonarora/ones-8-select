@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ones 8 Select — Premium Family Footwear</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+
+  <style>
+    :root {
+      --gold: #2563eb;
+      --gold-light: #4d82f3;
+      --gold-dark: #1e40af;
+      --bg-dark: #0a0e1a;
+      --bg-card: rgba(255, 255, 255, 0.04);
+      --bg-glass: rgba(15, 15, 15, 0.72);
+      --text-primary: #f0ece0;
+      --text-muted: #9a9383;
+      --text-dim: #5a5448;
+      --green: #dc2626;
+      --green-dark: #b91c1c;
+      --radius: 12px;
+      --radius-lg: 20px;
+      --transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Montserrat', sans-serif; background: var(--bg-dark); color: var(--text-primary); overflow-x: hidden; line-height: 1.7; }
+    img { display: block; max-width: 100%; }
+    a { text-decoration: none; color: inherit; }
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: #0d1220; }
+    ::-webkit-scrollbar-thumb { background: var(--gold-dark); border-radius: 4px; }
+
+    #navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: rgba(8, 8, 8, 0.6); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); border-bottom: 1px solid rgba(37,99,235,0.15); padding: 0 5%; display: flex; align-items: center; justify-content: space-between; height: 72px; transition: background var(--transition); }
+    .brand { display: flex; flex-direction: column; line-height: 1.1; user-select: none; }
+    .brand-top { display: flex; align-items: baseline; gap: 6px; font-size: 1.25rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; }
+    .brand-top .eight { color: var(--gold); }
+    .brand-bottom { display: flex; justify-content: space-between; font-size: 0.62rem; font-weight: 600; letter-spacing: normal; text-transform: uppercase; color: var(--text-muted); margin-top: 2px; width: 100%; }
+
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a { font-size: 0.78rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); position: relative; padding-bottom: 4px; transition: color var(--transition); }
+    .nav-links a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 1.5px; background: var(--gold); transition: width var(--transition); }
+    .nav-links a:hover { color: var(--text-primary); }
+    .nav-links a:hover::after { width: 100%; }
+
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: none; }
+    .hamburger span { display: block; width: 26px; height: 2px; background: var(--text-primary); border-radius: 2px; transition: var(--transition); }
+    .hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .mobile-menu { display: none; position: fixed; top: 72px; left: 0; right: 0; background: rgba(8, 8, 8, 0.97); backdrop-filter: blur(20px); padding: 28px 5% 36px; z-index: 999; border-bottom: 1px solid rgba(37,99,235,0.15); flex-direction: column; gap: 0; }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a { font-size: 0.85rem; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: var(--text-muted); padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,0.05); transition: color var(--transition); }
+    .mobile-menu a:hover { color: var(--gold); }
+
+    #home { position: relative; min-height: 100vh; display: flex; align-items: center; overflow: hidden; }
+    .hero-bg { position: absolute; inset: 0; background-image: url('https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=1600&q=80'); background-size: cover; background-position: center 30%; transform: scale(1.04); transition: transform 8s ease; }
+    #home:hover .hero-bg { transform: scale(1); }
+    .hero-overlay { position: absolute; inset: 0; background: linear-gradient(105deg, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.65) 50%, rgba(0,0,0,0.25) 100%); }
+    .hero-content { position: relative; z-index: 2; padding: 0 8% 0 8%; max-width: 680px; }
+    .hero-badge { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--gold); color: var(--gold-light); font-size: 0.68rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; padding: 7px 16px; border-radius: 40px; margin-bottom: 28px; animation: fadeUp 0.8s ease both; }
+    .hero-badge i { font-size: 0.9rem; }
+    .hero-heading { font-size: clamp(2.8rem, 6vw, 5.5rem); font-weight: 900; letter-spacing: -1px; line-height: 1.05; margin-bottom: 12px; animation: fadeUp 0.9s 0.15s ease both; }
+    .hero-heading .family { display: block; color: var(--gold-light); font-size: clamp(1.4rem, 3vw, 2.6rem); font-weight: 400; letter-spacing: 8px; text-transform: uppercase; margin-top: 6px; }
+    .hero-sub { font-size: 0.95rem; color: rgba(240, 236, 224, 0.7); font-weight: 400; max-width: 420px; line-height: 1.8; margin: 22px 0 40px; animation: fadeUp 1s 0.3s ease both; }
+    .hero-cta { display: flex; gap: 16px; flex-wrap: wrap; animation: fadeUp 1s 0.45s ease both; }
+    .btn-gold { display: inline-flex; align-items: center; gap: 8px; background: var(--gold); color: #fff; font-family: 'Montserrat', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 15px 32px; border-radius: 4px; border: none; cursor: pointer; transition: background var(--transition), transform var(--transition), box-shadow var(--transition); }
+    .btn-gold:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: 0 12px 32px rgba(37,99,235,0.35); }
+    .btn-ghost { display: inline-flex; align-items: center; gap: 8px; background: transparent; color: var(--text-primary); font-family: 'Montserrat', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 14px 32px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.3); cursor: pointer; transition: border-color var(--transition), color var(--transition), transform var(--transition); }
+    .btn-ghost:hover { border-color: var(--gold); color: var(--gold-light); transform: translateY(-2px); }
+
+    .scroll-indicator { position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; color: var(--text-muted); font-size: 0.6rem; letter-spacing: 3px; text-transform: uppercase; z-index: 2; animation: fadeUp 1s 0.7s ease both; }
+    .scroll-indicator .scroll-line { width: 1px; height: 48px; background: linear-gradient(to bottom, var(--gold), transparent); animation: scrollPulse 2s ease infinite; }
+
+    section { position: relative; padding: 100px 5%; }
+    .section-eyebrow { font-size: 0.65rem; font-weight: 700; letter-spacing: 5px; text-transform: uppercase; color: var(--gold-light); margin-bottom: 14px; }
+    .section-heading { font-size: clamp(1.9rem, 4vw, 3.2rem); font-weight: 800; letter-spacing: -0.5px; line-height: 1.2; }
+    .gold-line { width: 48px; height: 3px; background: var(--gold); border-radius: 2px; margin: 20px auto 0; }
+
+    .fade-up { opacity: 0; transform: translateY(40px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+    .delay-1 { transition-delay: 0.1s; }
+    .delay-2 { transition-delay: 0.2s; }
+    .delay-3 { transition-delay: 0.3s; }
+    .delay-4 { transition-delay: 0.4s; }
+
+    #gallery { min-height: 100vh; background: #060911; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+    #gallery .section-heading { margin-bottom: 14px; }
+    #gallery .gallery-sub { color: var(--text-muted); font-size: 0.88rem; max-width: 440px; margin: 14px auto 60px; font-weight: 400; }
+    .brands-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; width: 100%; max-width: 1100px; }
+    .brand-card { background: #0d1220; border: 1px solid rgba(255,255,255,0.07); border-radius: var(--radius-lg); overflow: hidden; cursor: pointer; position: relative; display: flex; flex-direction: column; transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition); }
+    .brand-card:hover { transform: translateY(-8px); border-color: rgba(37,99,235,0.35); box-shadow: 0 24px 48px rgba(0,0,0,0.6); }
+    .brand-card-img-wrap { position: relative; width: 100%; height: 220px; overflow: hidden; background: #141a2e; }
+    .brand-card-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.55s ease, filter 0.55s ease; filter: brightness(0.92); }
+    .brand-card:hover .brand-card-img-wrap img { transform: scale(1.07); filter: brightness(1); }
+    .brand-card-badge { position: absolute; top: 12px; left: 12px; background: var(--gold); color: #fff; font-size: 0.6rem; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; padding: 4px 10px; border-radius: 4px; }
+    .brand-card-body { padding: 18px 18px 22px; display: flex; flex-direction: column; gap: 6px; }
+    .brand-card-label { font-size: 0.6rem; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--gold-light); }
+    .brand-name { font-size: 0.88rem; font-weight: 700; letter-spacing: 0.2px; line-height: 1.35; color: var(--text-primary); }
+    .brand-cat { font-size: 0.72rem; color: var(--text-muted); font-weight: 500; }
+    .brand-price-row { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.06); }
+    .brand-price { font-size: 1.05rem; font-weight: 800; color: var(--gold-light); }
+    .brand-tag { display: inline-flex; align-items: center; gap: 4px; font-size: 0.6rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--green); border: 1px solid rgba(220,38,38,0.3); padding: 4px 10px; border-radius: 40px; background: rgba(220,38,38,0.06); }
+
+    #about { min-height: 100vh; background: var(--bg-dark); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 100px 5%; }
+    .about-body { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; width: 100%; max-width: 1100px; margin-bottom: 72px; }
+    .about-images { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 260px 200px; gap: 12px; border-radius: var(--radius-lg); overflow: hidden; }
+    .about-img { overflow: hidden; border-radius: var(--radius); position: relative; }
+    .about-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; filter: brightness(0.88); }
+    .about-img:hover img { transform: scale(1.06); filter: brightness(1); }
+    .about-img.tall { grid-row: span 2; border-radius: var(--radius); }
+    .about-img-badge { position: absolute; bottom: 14px; left: 14px; background: rgba(0,0,0,0.75); backdrop-filter: blur(8px); border: 1px solid rgba(37,99,235,0.3); color: var(--gold-light); font-size: 0.62rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 6px 12px; border-radius: 40px; }
+    .about-text { text-align: left; }
+    .about-text .section-eyebrow { text-align: left; }
+    .about-text .section-heading { margin-bottom: 20px; }
+    .about-text .gold-line { margin: 18px 0 24px; }
+    .about-text p { color: var(--text-muted); font-size: 0.91rem; line-height: 1.95; font-weight: 400; margin-bottom: 16px; }
+    .about-stat-row { display: flex; gap: 32px; margin-top: 32px; padding-top: 28px; border-top: 1px solid rgba(255,255,255,0.07); }
+    .about-stat { display: flex; flex-direction: column; gap: 4px; }
+    .about-stat-num { font-size: 1.8rem; font-weight: 900; color: var(--gold-light); letter-spacing: -1px; line-height: 1; }
+    .about-stat-label { font-size: 0.65rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); }
+
+    .trust-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; width: 100%; max-width: 1100px; }
+    .trust-card { background: var(--bg-card); border: 1px solid rgba(255,255,255,0.06); border-radius: var(--radius-lg); overflow: hidden; display: flex; flex-direction: column; transition: transform var(--transition), border-color var(--transition); }
+    .trust-card:hover { transform: translateY(-6px); border-color: rgba(37,99,235,0.2); }
+    .trust-card-img { width: 100%; height: 140px; object-fit: cover; filter: brightness(0.75) grayscale(20%); transition: filter 0.5s ease, transform 0.5s ease; }
+    .trust-card:hover .trust-card-img { filter: brightness(0.9) grayscale(0%); transform: scale(1.04); }
+    .trust-card-body { padding: 22px 20px 26px; display: flex; flex-direction: column; gap: 10px; }
+    .trust-icon { width: 42px; height: 42px; border-radius: 10px; background: rgba(37,99,235,0.1); border: 1px solid rgba(37,99,235,0.2); display: flex; align-items: center; justify-content: center; color: var(--gold-light); font-size: 1.2rem; }
+    .trust-title { font-size: 0.85rem; font-weight: 700; letter-spacing: 0.3px; }
+    .trust-desc { font-size: 0.75rem; color: var(--text-muted); line-height: 1.75; font-weight: 400; }
+
+    #contact { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; position: relative; overflow: hidden; padding: 100px 5%; }
+    .contact-bg { position: absolute; inset: 0; background-image: url('https://images.unsplash.com/photo-1521791136064-7986c2920216?w=1600&q=80'); background-size: cover; background-position: center; filter: grayscale(40%); }
+    .contact-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.82) 100%); }
+    .contact-inner { position: relative; z-index: 2; width: 100%; max-width: 1100px; }
+    .contact-heading { margin-bottom: 12px; }
+    .contact-sub { color: var(--text-muted); font-size: 0.88rem; margin-bottom: 52px; font-weight: 400; }
+    .contact-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 60px; }
+    .contact-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: var(--radius); padding: 28px 18px; display: flex; flex-direction: column; align-items: center; gap: 12px; transition: transform var(--transition), border-color var(--transition); text-decoration: none; color: inherit; }
+    .contact-card:hover { transform: translateY(-4px); border-color: rgba(37,99,235,0.3); }
+    .contact-card i { font-size: 1.6rem; color: var(--gold-light); }
+    .contact-card .cc-label { font-size: 0.62rem; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--text-muted); }
+    .contact-card .cc-value { font-size: 0.82rem; font-weight: 600; color: var(--text-primary); word-break: break-all; }
+    .contact-card.whatsapp i { color: var(--green); }
+    .contact-card.whatsapp:hover { border-color: rgba(220,38,38,0.3); }
+
+    .form-card { background: rgba(18,18,18,0.7); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.08); border-radius: var(--radius-lg); padding: 48px 44px; max-width: 640px; width: 100%; margin: 0 auto; text-align: left; }
+    .form-card h3 { font-size: 1.1rem; font-weight: 700; letter-spacing: 1px; margin-bottom: 28px; color: var(--text-primary); }
+    .form-group { margin-bottom: 18px; }
+    .form-group label { display: block; font-size: 0.7rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px; }
+    .form-group input, .form-group textarea { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 14px 16px; color: var(--text-primary); font-family: 'Montserrat', sans-serif; font-size: 0.88rem; font-weight: 500; outline: none; transition: border-color var(--transition), background var(--transition); }
+    .form-group input:focus, .form-group textarea:focus { border-color: var(--gold); background: rgba(37,99,235,0.04); }
+    .form-group textarea { resize: vertical; min-height: 110px; }
+
+    .btn-whatsapp { display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: 100%; background: var(--green); color: #fff; font-family: 'Montserrat', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 16px 28px; border-radius: 6px; border: none; cursor: pointer; margin-top: 8px; transition: background var(--transition), transform var(--transition), box-shadow var(--transition); }
+    .btn-whatsapp:hover { background: var(--green-dark); transform: translateY(-2px); box-shadow: 0 12px 28px rgba(220,38,38,0.28); }
+    .contact-action-btns { display: flex; gap: 16px; justify-content: center; margin-top: 28px; flex-wrap: wrap; }
+    .btn-wa-small { display: inline-flex; align-items: center; gap: 8px; background: var(--green); color: #fff; font-family: 'Montserrat', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 14px 30px; border-radius: 4px; border: none; cursor: pointer; transition: background var(--transition), transform var(--transition); text-decoration: none; }
+    .btn-wa-small:hover { background: var(--green-dark); transform: translateY(-2px); }
+
+    #footer { background: #04060d; border-top: 1px solid rgba(37,99,235,0.12); padding: 80px 5% 0; }
+    .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 52px; padding-bottom: 60px; }
+    .footer-col h4 { font-size: 0.65rem; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: var(--gold-light); margin-bottom: 20px; }
+    .footer-brand-desc { font-size: 0.82rem; color: var(--text-muted); line-height: 1.9; font-weight: 400; margin-top: 14px; }
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .footer-links a { font-size: 0.82rem; color: var(--text-muted); font-weight: 500; transition: color var(--transition); display: flex; align-items: center; gap: 8px; }
+    .footer-links a i { font-size: 0.85rem; color: var(--text-dim); transition: color var(--transition); }
+    .footer-links a:hover { color: var(--gold-light); }
+    .footer-links a:hover i { color: var(--gold-light); }
+    .footer-contact-item { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 14px; font-size: 0.82rem; color: var(--text-muted); }
+    .footer-contact-item i { color: var(--gold-light); font-size: 1rem; flex-shrink: 0; margin-top: 2px; }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,0.06); padding: 24px 0; display: flex; align-items: center; justify-content: center; }
+    .footer-bottom p { font-size: 0.72rem; color: var(--text-dim); letter-spacing: 1.5px; }
+    .footer-bottom span { color: var(--gold-light); }
+
+    #back-top { position: fixed; bottom: 32px; right: 32px; width: 48px; height: 48px; background: var(--gold); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; cursor: pointer; z-index: 999; border: none; box-shadow: 0 8px 24px rgba(37,99,235,0.35); transform: translateY(80px); opacity: 0; transition: transform 0.4s ease, opacity 0.4s ease, background var(--transition); }
+    #back-top.show { transform: translateY(0); opacity: 1; }
+    #back-top:hover { background: var(--gold-light); }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes scrollPulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+
+    @media (max-width: 1024px) {
+      .brands-grid { grid-template-columns: repeat(3, 1fr); }
+      .about-body { grid-template-columns: 1fr; gap: 48px; }
+      .about-images { grid-template-rows: 220px 180px; }
+      .trust-grid { grid-template-columns: repeat(2, 1fr); }
+      .contact-cards { grid-template-columns: repeat(2, 1fr); }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+    }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .hero-content { padding: 0 6%; }
+      section { padding: 80px 5%; }
+      .brands-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+      .about-body { grid-template-columns: 1fr; gap: 40px; }
+      .about-images { grid-template-rows: 200px 160px; }
+      .about-text { text-align: center; }
+      .about-text .section-eyebrow { text-align: center; }
+      .about-text .gold-line { margin: 18px auto 24px; }
+      .about-stat-row { justify-content: center; }
+      .trust-grid { grid-template-columns: 1fr 1fr; gap: 14px; }
+      .contact-cards { grid-template-columns: 1fr 1fr; gap: 12px; }
+      .form-card { padding: 32px 24px; }
+      .footer-grid { grid-template-columns: 1fr; gap: 36px; }
+    }
+    @media (max-width: 480px) {
+      .brands-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+      .about-images { grid-template-columns: 1fr; grid-template-rows: 200px 160px 160px; }
+      .about-img.tall { grid-row: span 1; }
+      .trust-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+      .trust-card-img { height: 110px; }
+      .contact-cards { grid-template-columns: 1fr 1fr; gap: 10px; }
+      .hero-cta { flex-direction: column; }
+      .btn-gold, .btn-ghost { text-align: center; justify-content: center; }
+      .contact-action-btns { flex-direction: column; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav id="navbar">
+    <div class="brand">
+      <div class="brand-top">Ones <span class="eight">8</span></div>
+      <div class="brand-bottom"><span>S</span><span>E</span><span>L</span><span>E</span><span>C</span><span>T</span></div>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#home" onclick="closeMobile()">Home</a>
+    <a href="#gallery" onclick="closeMobile()">Gallery</a>
+    <a href="#about" onclick="closeMobile()">About</a>
+    <a href="#contact" onclick="closeMobile()">Contact</a>
+  </div>
+
+  <section id="home">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-badge">
+        <i class="ti ti-sparkles"></i>
+        New Collection 2025
+      </div>
+      <h1 class="hero-heading">
+        Ones 8 Select
+        <span class="family">A Complete Family Footwear</span>
+      </h1>
+      <p class="hero-sub">
+        Premium footwear for every step of your family's journey. Curated brands, genuine products, and unmatched quality — all under one roof in Delhi NCR.
+      </p>
+      <div class="hero-cta">
+        <button class="btn-gold" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">
+          <i class="ti ti-shopping-bag"></i> Shop Now
+        </button>
+        <button class="btn-ghost" onclick="document.getElementById('gallery').scrollIntoView({behavior:'smooth'})">
+          <i class="ti ti-arrow-right"></i> Explore
+        </button>
+      </div>
+    </div>
+    <div class="scroll-indicator">
+      <div class="scroll-line"></div>
+      <span>Scroll to Explore</span>
+    </div>
+  </section>
+
+  <section id="gallery">
+    <div class="section-eyebrow fade-up">Our Brands</div>
+    <h2 class="section-heading fade-up delay-1">Curated for Every Foot</h2>
+    <p class="gallery-sub fade-up delay-2">Premium international and domestic brands — handpicked for quality, comfort, and style.</p>
+    <div class="gold-line fade-up delay-2" style="margin-bottom:0;"></div>
+    <div style="height:56px;"></div>
+
+    <div class="brands-grid">
+
+      <div class="brand-card fade-up delay-1">
+        <div class="brand-card-img-wrap">
+          <img src="image1.jpeg" alt="Campus Men's Running Shoes" />
+          <span class="brand-card-badge">In Stock</span>
+        </div>
+        <div class="brand-card-body">
+          <div class="brand-card-label">Campus</div>
+          <div class="brand-name">Men's Running Shoes</div>
+          <div class="brand-cat">Sport &amp; Performance</div>
+          <div class="brand-price-row">
+            <span class="brand-price">₹1,449</span>
+            <span class="brand-tag"><i class="ti ti-check" style="font-size:0.7rem;"></i> Available</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="brand-card fade-up delay-2">
+        <div class="brand-card-img-wrap">
+          <img src="image2.jpeg" alt="Campus Black Men's Running Shoes" />
+          <span class="brand-card-badge">In Stock</span>
+        </div>
+        <div class="brand-card-body">
+          <div class="brand-card-label">Campus</div>
+          <div class="brand-name">Black Men's Running Shoes</div>
+          <div class="brand-cat">Sport &amp; Performance</div>
+          <div class="brand-price-row">
+            <span class="brand-price">₹980</span>
+            <span class="brand-tag"><i class="ti ti-check" style="font-size:0.7rem;"></i> Available</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="brand-card fade-up delay-3">
+        <div class="brand-card-img-wrap">
+          <img src="image3.png" alt="Blue Hut Men's Formal Shoes" />
+          <span class="brand-card-badge">In Stock</span>
+        </div>
+        <div class="brand-card-body">
+          <div class="brand-card-label">Blue Hut</div>
+          <div class="brand-name">Men's Formal Shoes</div>
+          <div class="brand-cat">Formal &amp; Office Wear</div>
+          <div class="brand-price-row">
+            <span class="brand-price">₹1,299</span>
+            <span class="brand-tag"><i class="ti ti-check" style="font-size:0.7rem;"></i> Available</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="brand-card fade-up delay-4">
+        <div class="brand-card-img-wrap">
+          <img src="image4.jpeg" alt="Adidas Takumi Sen 11" />
+          <span class="brand-card-badge">In Stock</span>
+        </div>
+        <div class="brand-card-body">
+          <div class="brand-card-label">Adidas</div>
+          <div class="brand-name">Takumi Sen 11</div>
+          <div class="brand-cat">Sport &amp; Performance</div>
+          <div class="brand-price-row">
+            <span class="brand-price">₹2,799</span>
+            <span class="brand-tag"><i class="ti ti-check" style="font-size:0.7rem;"></i> Available</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="brand-card fade-up delay-1">
+        <div class="brand-card-img-wrap">
+          <img src="image5.jpeg" alt="Adidas Slippers" />
+          <span class="brand-card-badge">In Stock</span>
+        </div>
+        <div class="brand-card-body">
+          <div class="brand-card-label">Adidas</div>
+          <div class="brand-name">Slippers</div>
+          <div class="brand-cat">Slippers &amp; Flip Flops</div>
+          <div class="brand-price-row">
+            <span class="brand-price">₹1,499</span>
+            <span class="brand-tag"><i class="ti ti-check" style="font-size:0.7rem;"></i> Available</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="brand-card fade-up delay-2">
+        <div class="brand-card-img-wrap">
+          <img src="image6.jpeg" alt="Paragon Slippers" />
+          <span class="brand-card-badge">In Stock</span>
+        </div>
+        <div class="brand-card-body">
+          <div class="brand-card-label">Paragon</div>
+          <div class="brand-name">Slippers</div>
+          <div class="brand-cat">Slippers &amp; Flip Flops</div>
+          <div class="brand-price-row">
+            <span class="brand-price">₹520</span>
+            <span class="brand-tag"><i class="ti ti-check" style="font-size:0.7rem;"></i> Available</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="about">
+
+    <div class="about-body">
+
+      <div class="about-images fade-up">
+        <div class="about-img tall">
+          <img src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?w=600&q=80" alt="Premium sneakers" />
+          <span class="about-img-badge"><i class="ti ti-star-filled" style="font-size:0.7rem;margin-right:4px;"></i> Premium Quality</span>
+        </div>
+        <div class="about-img">
+          <img src="https://images.unsplash.com/photo-1549298916-b41d501d3772?w=600&q=80" alt="Family footwear" />
+          <span class="about-img-badge">Family Styles</span>
+        </div>
+        <div class="about-img">
+          <img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=600&q=80" alt="Shoe collection" />
+          <span class="about-img-badge">New Arrivals</span>
+        </div>
+      </div>
+
+      <div class="about-text fade-up delay-2">
+        <div class="section-eyebrow">Our Story</div>
+        <h2 class="section-heading">Premium Footwear<br/>for Every Family</h2>
+        <div class="gold-line"></div>
+        <p>
+          Ones 8 Select is a family-run footwear destination rooted in Delhi NCR. Built on a foundation of trust and love for quality shoes, we bring the best brands and styles to families across the region.
+        </p>
+        <p>
+          Whether it's your child's first school shoes, dad's weekend sneakers, or mom's comfort wear — we've got every pair covered. Walk in, and walk out with confidence.
+        </p>
+        <div class="about-stat-row">
+          <div class="about-stat">
+            <span class="about-stat-num">500+</span>
+            <span class="about-stat-label">Happy Families</span>
+          </div>
+          <div class="about-stat">
+            <span class="about-stat-num">4+</span>
+            <span class="about-stat-label">Top Brands</span>
+          </div>
+          <div class="about-stat">
+            <span class="about-stat-num">100%</span>
+            <span class="about-stat-label">Genuine Products</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="trust-grid">
+      <div class="trust-card fade-up delay-1">
+        <img class="trust-card-img" src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=500&q=80" alt="Best Price" />
+        <div class="trust-card-body">
+          <div class="trust-icon"><i class="ti ti-discount-2"></i></div>
+          <div class="trust-title">Best Price Guaranteed</div>
+          <div class="trust-desc">We match the market so you always get the best deal on every pair, every time.</div>
+        </div>
+      </div>
+      <div class="trust-card fade-up delay-2">
+        <img class="trust-card-img" src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&q=80" alt="Top Brands" />
+        <div class="trust-card-body">
+          <div class="trust-icon"><i class="ti ti-rosette"></i></div>
+          <div class="trust-title">Top Brand Selection</div>
+          <div class="trust-desc">Only trusted, well-known brands — no imitations, no compromises, no shortcuts.</div>
+        </div>
+      </div>
+      <div class="trust-card fade-up delay-3">
+        <img class="trust-card-img" src="https://images.unsplash.com/photo-1460353581641-37baddab0fa2?w=500&q=80" alt="Right Fit" />
+        <div class="trust-card-body">
+          <div class="trust-icon"><i class="ti ti-ruler-measure"></i></div>
+          <div class="trust-title">Right Fit, Every Time</div>
+          <div class="trust-desc">Wide range of sizes for men, women, and kids — so the whole family walks out happy.</div>
+        </div>
+      </div>
+      <div class="trust-card fade-up delay-4">
+        <img class="trust-card-img" src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=500&q=80" alt="Happy Family" />
+        <div class="trust-card-body">
+          <div class="trust-icon"><i class="ti ti-heart-handshake"></i></div>
+          <div class="trust-title">Trusted by Families</div>
+          <div class="trust-desc">Hundreds of happy families across Delhi NCR keep coming back — that says it all.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="contact-bg"></div>
+    <div class="contact-overlay"></div>
+    <div class="contact-inner">
+      <div class="section-eyebrow fade-up">Get In Touch</div>
+      <h2 class="section-heading contact-heading fade-up delay-1">Let's Find Your Perfect Pair</h2>
+      <p class="contact-sub fade-up delay-2">Reach out through any channel — we're happy to help you every step of the way.</p>
+      <div class="gold-line fade-up delay-2" style="margin-bottom: 52px;"></div>
+
+      <div class="contact-cards">
+        <a href="tel:+919876543210" class="contact-card fade-up delay-1">
+          <i class="ti ti-phone-call"></i>
+          <div class="cc-label">Call Us</div>
+          <div class="cc-value">+91 98765-43210</div>
+        </a>
+        <a href="https://wa.me/919876543210" target="_blank" class="contact-card whatsapp fade-up delay-2">
+          <i class="ti ti-brand-whatsapp"></i>
+          <div class="cc-label">WhatsApp</div>
+          <div class="cc-value">+91 98765-43210</div>
+        </a>
+        <a href="mailto:contact.ones8select@gmail.com" class="contact-card fade-up delay-3">
+          <i class="ti ti-mail"></i>
+          <div class="cc-label">Email Us</div>
+          <div class="cc-value">contact.ones8select@gmail.com</div>
+        </a>
+        <div class="contact-card fade-up delay-4">
+          <i class="ti ti-map-pin"></i>
+          <div class="cc-label">Location</div>
+          <div class="cc-value">Shop No. 14, Sant Nagar Market,<br/>Near Bus Stand, Delhi 110045</div>
+        </div>
+      </div>
+
+      <div class="form-card fade-up delay-2">
+        <h3><i class="ti ti-message-circle" style="color:var(--gold-light);margin-right:10px;"></i>Send Us a Message</h3>
+        <div class="form-group">
+          <label>Your Name</label>
+          <input type="text" id="fname" placeholder="John Doe" />
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" id="femail" placeholder="john@example.com" />
+        </div>
+        <div class="form-group">
+          <label>Message</label>
+          <textarea id="fmessage" placeholder="Tell us what you're looking for..."></textarea>
+        </div>
+        <button class="btn-whatsapp" onclick="sendWhatsApp()">
+          <i class="ti ti-brand-whatsapp" style="font-size:1.1rem;"></i>
+          Send via WhatsApp
+        </button>
+      </div>
+
+      <div class="contact-action-btns fade-up">
+        <a href="https://wa.me/919876543210" target="_blank" class="btn-wa-small">
+          <i class="ti ti-brand-whatsapp"></i> WhatsApp Us
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer id="footer">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <div class="brand" style="margin-bottom:16px; display:inline-flex; flex-direction:column; width:fit-content;">
+          <div class="brand-top" style="font-size:1.1rem; white-space:nowrap;">Ones <span class="eight">8</span></div>
+          <div class="brand-bottom" style="font-size:0.55rem; width:100%;"><span>S</span><span>E</span><span>L</span><span>E</span><span>C</span><span>T</span></div>
+        </div>
+        <h4 style="margin-bottom:0; margin-top:20px;">About the Shop</h4>
+        <p class="footer-brand-desc">Premium footwear for the entire family. Quality, comfort, and style — every step of the way.</p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul class="footer-links">
+          <li><a href="#home"><i class="ti ti-home"></i> Home</a></li>
+          <li><a href="#gallery"><i class="ti ti-layout-grid"></i> Gallery</a></li>
+          <li><a href="#about"><i class="ti ti-info-circle"></i> About Us</a></li>
+          <li><a href="#contact"><i class="ti ti-message"></i> Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <div class="footer-contact-item">
+          <i class="ti ti-phone"></i>
+          <span>+91 98765-43210</span>
+        </div>
+        <div class="footer-contact-item">
+          <i class="ti ti-mail"></i>
+          <span>contact.ones8select@gmail.com</span>
+        </div>
+        <div class="footer-contact-item">
+          <i class="ti ti-map-pin"></i>
+          <span>Shop No. 14, Sant Nagar Market, Near Bus Stand, Delhi 110045</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2025 <span>Ones 8 Select</span>. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">
+    <i class="ti ti-arrow-up"></i>
+  </button>
+
+  <script>
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('active');
+      mobileMenu.classList.toggle('open');
+    });
+
+    function closeMobile() {
+      hamburger.classList.remove('active');
+      mobileMenu.classList.remove('open');
+    }
+
+    const backTop = document.getElementById('back-top');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 400) {
+        backTop.classList.add('show');
+      } else {
+        backTop.classList.remove('show');
+      }
+    });
+
+    const fadeEls = document.querySelectorAll('.fade-up');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.12 });
+    fadeEls.forEach(el => observer.observe(el));
+
+    function sendWhatsApp() {
+      const name    = document.getElementById('fname').value.trim();
+      const email   = document.getElementById('femail').value.trim();
+      const message = document.getElementById('fmessage').value.trim();
+
+      if (!name || !email || !message) {
+        alert('Please fill in all fields before sending.');
+        return;
+      }
+
+      const phone = '919876543210';
+      const text  = `Hello Ones 8 Select,%0A%0AName: ${encodeURIComponent(name)}%0AEmail: ${encodeURIComponent(email)}%0AMessage: ${encodeURIComponent(message)}`;
+      window.open(`https://wa.me/${phone}?text=${text}`, '_blank');
+    }
+
+    window.addEventListener('scroll', () => {
+      const nav = document.getElementById('navbar');
+      if (window.scrollY > 50) {
+        nav.style.boxShadow = '0 4px 32px rgba(0,0,0,0.5)';
+      } else {
+        nav.style.boxShadow = 'none';
+      }
+    });
+  </script>
+</body>
+</html>
