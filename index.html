@@ -97,6 +97,11 @@
     #gallery .section-heading { margin-bottom: 14px; }
     #gallery .gallery-sub { color: var(--text-muted); font-size: 0.88rem; max-width: 440px; margin: 14px auto 60px; font-weight: 400; }
     .brands-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; width: 100%; max-width: 1100px; }
+    .category-tabs { display: flex; gap: 14px; margin-bottom: 40px; }
+    .category-tab { font-family: 'Montserrat', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); padding: 12px 32px; border-radius: 40px; cursor: pointer; transition: background var(--transition), color var(--transition), border-color var(--transition); }
+    .category-tab:hover { color: var(--text-primary); border-color: rgba(37,99,235,0.3); }
+    .category-tab.active { background: var(--gold); color: #fff; border-color: var(--gold); }
+    .brand-card.hidden-card { display: none; }
     .brand-card { background: #0d1220; border: 1px solid rgba(255,255,255,0.07); border-radius: var(--radius-lg); overflow: hidden; cursor: pointer; position: relative; display: flex; flex-direction: column; transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition); }
     .brand-card:hover { transform: translateY(-8px); border-color: rgba(37,99,235,0.35); box-shadow: 0 24px 48px rgba(0,0,0,0.6); }
     .brand-card-img-wrap { position: relative; width: 100%; height: 220px; overflow: hidden; background: #141a2e; }
@@ -291,9 +296,14 @@
     <div class="gold-line fade-up delay-2" style="margin-bottom:0;"></div>
     <div style="height:56px;"></div>
 
+    <div class="category-tabs fade-up delay-2">
+      <button class="category-tab active" data-category="men" onclick="filterCategory('men')">Men</button>
+      <button class="category-tab" data-category="women" onclick="filterCategory('women')">Women</button>
+    </div>
+
     <div class="brands-grid">
 
-      <div class="brand-card fade-up delay-1">
+      <div class="brand-card fade-up delay-1" data-category="men">
         <div class="brand-card-img-wrap">
           <img src="image1.jpeg" alt="Campus Men's Running Shoes" />
           <span class="brand-card-badge">In Stock</span>
@@ -309,7 +319,7 @@
         </div>
       </div>
 
-      <div class="brand-card fade-up delay-2">
+      <div class="brand-card fade-up delay-2" data-category="men">
         <div class="brand-card-img-wrap">
           <img src="image2.jpeg" alt="Campus Black Men's Running Shoes" />
           <span class="brand-card-badge">In Stock</span>
@@ -325,7 +335,7 @@
         </div>
       </div>
 
-      <div class="brand-card fade-up delay-3">
+      <div class="brand-card fade-up delay-3" data-category="men">
         <div class="brand-card-img-wrap">
           <img src="image3.png" alt="Blue Hut Men's Formal Shoes" />
           <span class="brand-card-badge">In Stock</span>
@@ -341,7 +351,7 @@
         </div>
       </div>
 
-      <div class="brand-card fade-up delay-4">
+      <div class="brand-card fade-up delay-4" data-category="men">
         <div class="brand-card-img-wrap">
           <img src="image4.jpeg" alt="Adidas Takumi Sen 11" />
           <span class="brand-card-badge">In Stock</span>
@@ -357,7 +367,7 @@
         </div>
       </div>
 
-      <div class="brand-card fade-up delay-1">
+      <div class="brand-card fade-up delay-1" data-category="men">
         <div class="brand-card-img-wrap">
           <img src="image5.jpeg" alt="Adidas Slippers" />
           <span class="brand-card-badge">In Stock</span>
@@ -373,7 +383,7 @@
         </div>
       </div>
 
-      <div class="brand-card fade-up delay-2">
+      <div class="brand-card fade-up delay-2" data-category="men">
         <div class="brand-card-img-wrap">
           <img src="image6.jpeg" alt="Paragon Slippers" />
           <span class="brand-card-badge">In Stock</span>
@@ -389,7 +399,7 @@
         </div>
       </div>
 
-      <div class="brand-card fade-up delay-3">
+      <div class="brand-card fade-up delay-3" data-category="women">
         <div class="brand-card-img-wrap">
           <img src="image7.jpeg" alt="Ladies Fancy Slippers in Heel" />
           <span class="brand-card-badge">In Stock</span>
@@ -405,7 +415,7 @@
         </div>
       </div>
 
-      <div class="brand-card fade-up delay-4">
+      <div class="brand-card fade-up delay-4" data-category="women">
         <div class="brand-card-img-wrap">
           <img src="image8.jpeg" alt="Ladies Kolapuri Fancy Slippers" />
           <span class="brand-card-badge">In Stock</span>
@@ -646,6 +656,20 @@
       });
     }, { threshold: 0.12 });
     fadeEls.forEach(el => observer.observe(el));
+
+    function filterCategory(category) {
+      document.querySelectorAll('.category-tab').forEach(tab => {
+        tab.classList.toggle('active', tab.dataset.category === category);
+      });
+      document.querySelectorAll('.brand-card').forEach(card => {
+        const match = card.dataset.category === category;
+        card.classList.toggle('hidden-card', !match);
+        if (match) {
+          card.classList.add('visible');
+        }
+      });
+    }
+    filterCategory('men');
 
     function sendWhatsApp() {
       const name    = document.getElementById('fname').value.trim();
